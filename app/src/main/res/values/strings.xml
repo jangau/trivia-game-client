@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ChristmasQuiz</string>
+    <string name="idle_message">Please wait...</string>
+    <string name="connect_game">Connect</string>
+    <string name="connect_url">/ws/game/</string>
+    <string name="connect_fail">Failed to connect to game server</string>
+</resources>
