@@ -4,11 +4,11 @@ public class GameStates {
     private static String team;
 
     public static synchronized String getTeam(){
-        return team;
+        return "#Rezist";
     }
 
     public static synchronized void setTeam(String teamName){
-        team = teamName;
+        GameStates.team = teamName;
     }
 
 }

@@ -4,6 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/hellaYellow"
     tools:context=".SelectCategory">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/rowCateg1"
+            style="@android:style/DeviceDefault.ButtonBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonCateg1"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:layout_width="384dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybuttons" />
+
+            <Button
+                android:id="@+id/buttonCateg2"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                android:layout_width="384dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybuttons" />
+
+            <Button
+                android:id="@+id/buttonCateg3"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                android:layout_width="384dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybuttons" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowCateg2"
+            style="@android:style/DeviceDefault.ButtonBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonCateg4"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:layout_width="384dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybuttons" />
+
+            <Button
+                android:id="@+id/buttonCateg5"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                android:layout_width="384dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybuttons" />
+
+            <Button
+                android:id="@+id/buttonCateg6"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                android:layout_width="384dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybuttons" />
+        </LinearLayout>
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

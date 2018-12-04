@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/hellaYellow"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -15,6 +16,8 @@
             android:id="@+id/buttonConnect"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/categorybuttons"
+            android:textColor="@color/hellaYellow"
             android:text="@string/connect_game" />
 
         <TextView
@@ -24,6 +27,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="350dp"
             android:text="@string/idle_message"
+            android:textColor="@color/hellaBlue"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -5,7 +5,8 @@ android {
     defaultConfig {
         applicationId "com.hella.christmasquiz"
         minSdkVersion 19
-        targetSdkVersion 28
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -22,6 +22,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -124,6 +127,7 @@ public class MainActivity extends Activity {
                                             e.printStackTrace();
                                         }
                                         SocketHolder.getSocket().send(registerSend.toString());
+                                        GameStates.setTeam(teamNames[which]);
                                         Toast.makeText(getApplicationContext(), teamNames[which], Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -131,8 +135,27 @@ public class MainActivity extends Activity {
                             }
                         }
                         if (type.compareTo("category.send") == 0){
+
+                            String teamName = response.get("to").toString();
+
+                            if (teamName.compareTo(GameStates.getTeam()) != 0){
+                                return;
+                            }
+
+                            JSONObject categories = response.getJSONObject("categories");
+                            ArrayList<String> categoriesList = new ArrayList<>();
+                            ArrayList<Boolean> categoriesEnabled = new ArrayList<>();
+
+                            for (Iterator<String> keyIterator = categories.keys(); keyIterator.hasNext(); ){
+                                String categoryName = keyIterator.next();
+                                categoriesList.add(categoryName);
+                                categoriesEnabled.add(categories.getBoolean(categoryName));
+                            }
+
+
                             Intent intent = new Intent(MainActivity.this, SelectCategory.class);
-                            intent.putExtra("Categories", "bla");
+                            intent.putStringArrayListExtra("Categories", categoriesList);
+                            intent.putExtra("CategoriesEnabled", categoriesEnabled);
                             startActivity(intent);
                         }
 
