@@ -5,4 +5,10 @@
         <!-- Customize your theme here. -->
         <item name="android:background">@color/colorAccent</item>
     </style>
+    <style name="AppTheme.RoundedCornerCategoryButton" parent="android:Widget.Holo.Button.Borderless">
+        <item name="android:background">@drawable/roundedshape</item>
+    </style>
+    <style name="AppTheme.RoundedCornerConfirmButton" parent="android:Widget.Holo.Button.Borderless">
+        <item name="android:background">@drawable/confirm</item>
+    </style>
 </resources>

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,7 @@ public class MainActivity extends Activity {
     private Button connectButton;
     private String ipAddress;
     private OkHttpClient client;
+    private String deviceID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class MainActivity extends Activity {
         spinner.setIndeterminate(true);
         connectButton = findViewById(R.id.buttonConnect);
         client = new OkHttpClient();
+        deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +98,18 @@ public class MainActivity extends Activity {
         private static final int NORMAL_CLOSE_STATUS = 1000;
 
         @Override
+        public void onOpen(WebSocket webSocket, Response response){
+            JSONObject connectSend = new JSONObject();
+            try {
+                connectSend.put("type", "connected");
+                connectSend.put("device", deviceID);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            webSocket.send(connectSend.toString());
+        }
+
+        @Override
         public void onMessage(WebSocket webSocket, String text) {
             final String message = new String(text);
             runOnUiThread(new Runnable() {
@@ -105,9 +120,10 @@ public class MainActivity extends Activity {
                         String type = response.get("type").toString();
 
                         if (type.compareTo("register_device") == 0){
-                            if (GameStates.getTeam() == null){
+                            final int gameID = response.getInt("game");
+                            if (GameStates.getTeam() == null || (gameID != GameStates.getGameID())){
                                 JSONArray teams = response.getJSONArray("teams");
-                                final int gameID = response.getInt("game");
+                                GameStates.setGameID(gameID);
                                 final String[] teamNames = new String[teams.length()];
                                 for (int i=0; i < teams.length(); i++){
                                     teamNames[i] = (String) teams.get(i);
@@ -123,6 +139,7 @@ public class MainActivity extends Activity {
                                             registerSend.put("team", teamNames[which]);
                                             registerSend.put("game", gameID);
                                             registerSend.put("type", "register");
+                                            registerSend.put("device", deviceID);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -133,6 +150,7 @@ public class MainActivity extends Activity {
                                 });
                                 builder.show();
                             }
+                            return;
                         }
                         if (type.compareTo("category.send") == 0){
 
@@ -157,6 +175,35 @@ public class MainActivity extends Activity {
                             intent.putStringArrayListExtra("Categories", categoriesList);
                             intent.putExtra("CategoriesEnabled", categoriesEnabled);
                             startActivity(intent);
+                            return;
+                        }
+                        if (type.compareTo("question_send") == 0){
+                            String teamName = response.get("team").toString();
+
+                            if (teamName.compareTo(GameStates.getTeam()) != 0) {
+                                return;
+                            }
+
+                            String questionText = response.getString("question");
+                            JSONArray answers = response.getJSONArray("answers");
+                            ArrayList<String> answersText = new ArrayList<>();
+
+                            for (int i = 0; i < answers.length(); i++){
+                                answersText.add(answers.getString(i));
+                            }
+
+                            Intent intent = new Intent(MainActivity.this, AnswerQuestion.class);
+                            intent.putExtra("Question", questionText);
+                            intent.putExtra("Answers", answersText);
+                            startActivity(intent);
+                            return;
+                        }
+                        if (type.compareTo("device_reconnect") == 0){
+                            String devID = response.getString("device");
+                            if (devID.compareTo(deviceID) == 0){
+                                GameStates.setTeam(response.getString("team"));
+                                GameStates.setGameID(response.getInt("game"));
+                            }
                         }
 
                     } catch (JSONException e) {

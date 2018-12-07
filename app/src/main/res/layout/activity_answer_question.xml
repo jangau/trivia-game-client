@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AnswerQuestion"
+    android:background="@color/hellaYellow">
+
+    <TextView
+        android:id="@+id/questionView"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="104dp"
+        android:autoText="false"
+        android:ems="10"
+        android:text="This is a dummy question so i can see how theview will look even with very long questions!"
+        android:textColor="@color/hellaBlue"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@id/firstAnswerRow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/timerAnswer"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/firstAnswerRow"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginEnd="104dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/questionView">
+
+        <Button
+            android:id="@+id/buttonAnswer1"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:background="@drawable/categorybuttons"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/buttonAnswer2"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="100dp"
+            android:layout_weight="1"
+            android:background="@drawable/categorybuttons"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondAnswerRow"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginEnd="104dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/firstAnswerRow">
+
+        <Button
+            android:id="@+id/buttonAnswer3"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:background="@drawable/categorybuttons"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/buttonAnswer4"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="100dp"
+            android:layout_weight="1"
+            android:background="@drawable/categorybuttons"
+            android:textColor="@android:color/background_light"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonConfirmAnswer"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:background="@drawable/confirm"
+        android:text="@string/confirm"
+        android:textColor="@android:color/background_light"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondAnswerRow" />
+
+    <ProgressBar
+        android:id="@+id/timerAnswer"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:indeterminate="false"
+        android:progress="@android:integer/config_mediumAnimTime"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/firstAnswerRow"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerAsText" />
+
+    <TextView
+        android:id="@+id/timerAsText"
+        android:layout_width="64dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/hellaBlue"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toStartOf="@+id/questionView"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="30" />
+</android.support.constraint.ConstraintLayout>

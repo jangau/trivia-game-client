@@ -17,36 +17,42 @@
             style="@android:style/DeviceDefault.ButtonBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/buttonCateg1"
-                style="@android:style/Widget.Holo.Button.Borderless"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="384dp"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 android:layout_marginStart="32dp"
                 android:layout_weight="1"
-                android:background="@drawable/categorybuttons" />
+                android:background="@drawable/categorybuttons"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
 
             <Button
                 android:id="@+id/buttonCateg2"
                 style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="384dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="32dp"
+                android:layout_height="170dp"
+                android:layout_marginStart="128dp"
                 android:layout_weight="1"
-                android:background="@drawable/categorybuttons" />
+                android:background="@drawable/categorybuttons"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
 
             <Button
                 android:id="@+id/buttonCateg3"
                 style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="384dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="32dp"
+                android:layout_height="170dp"
+                android:layout_marginStart="128dp"
                 android:layout_marginEnd="32dp"
                 android:layout_weight="1"
-                android:background="@drawable/categorybuttons" />
+                android:background="@drawable/categorybuttons"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
 
         </LinearLayout>
 
@@ -55,36 +61,77 @@
             style="@android:style/DeviceDefault.ButtonBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/buttonCateg4"
                 style="@android:style/Widget.Holo.Button.Borderless"
                 android:layout_width="384dp"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 android:layout_marginStart="32dp"
                 android:layout_weight="1"
-                android:background="@drawable/categorybuttons" />
+                android:background="@drawable/categorybuttons"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
 
             <Button
                 android:id="@+id/buttonCateg5"
                 style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="384dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="32dp"
+                android:layout_height="170dp"
+                android:layout_marginStart="128dp"
                 android:layout_weight="1"
-                android:background="@drawable/categorybuttons" />
+                android:background="@drawable/categorybuttons"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
 
             <Button
                 android:id="@+id/buttonCateg6"
                 style="@android:style/Widget.DeviceDefault.Button.Borderless"
                 android:layout_width="384dp"
-                android:layout_height="150dp"
-                android:layout_marginStart="32dp"
+                android:layout_height="170dp"
+                android:layout_marginStart="128dp"
                 android:layout_marginEnd="32dp"
                 android:layout_weight="1"
-                android:background="@drawable/categorybuttons" />
+                android:background="@drawable/categorybuttons"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowCateg3"
+            style="@android:style/DeviceDefault.ButtonBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonCateg7"
+                style="@android:style/Widget.Holo.Button.Borderless"
+                android:layout_width="320dp"
+                android:layout_height="170dp"
+                android:layout_marginStart="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybuttons"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
+
+            <Button
+                android:id="@+id/buttonConfirm"
+                style="@android:style/Widget.DeviceDefault.Button.Borderless"
+                android:layout_width="320dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="576dp"
+                android:layout_marginEnd="32dp"
+                android:layout_weight="1"
+                android:background="@drawable/confirm"
+                android:text="@string/confirm"
+                android:textColor="@android:color/background_light"
+                android:textSize="32sp" />
+
         </LinearLayout>
 
     </LinearLayout>
