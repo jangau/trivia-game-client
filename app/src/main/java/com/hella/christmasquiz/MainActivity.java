@@ -153,6 +153,10 @@ public class MainActivity extends Activity {
                             return;
                         }
                         if (type.compareTo("category.send") == 0){
+                            if (GameStates.getTeam() == null){
+                                // We are not registered, ignore
+                                return;
+                            }
 
                             String teamName = response.get("to").toString();
 
@@ -178,23 +182,34 @@ public class MainActivity extends Activity {
                             return;
                         }
                         if (type.compareTo("question_send") == 0){
+                            if (GameStates.getTeam() == null){
+                                // We are not registered, return
+                                return;
+                            }
                             String teamName = response.get("team").toString();
 
-                            if (teamName.compareTo(GameStates.getTeam()) != 0) {
+                            if (teamName.compareTo(GameStates.getTeam()) != 0 && (teamName.compareTo("all") != 0)) {
                                 return;
                             }
 
                             String questionText = response.getString("question");
-                            JSONArray answers = response.getJSONArray("answers");
+                            String questionID = response.getString("questionID");
+                            JSONObject answers = response.getJSONObject("answers");
+                            ArrayList<String> answerIDs = new ArrayList<String>();
+                            for (Iterator<String> iter = answers.keys(); iter.hasNext(); ){
+                                answerIDs.add(iter.next());
+                            }
                             ArrayList<String> answersText = new ArrayList<>();
 
                             for (int i = 0; i < answers.length(); i++){
-                                answersText.add(answers.getString(i));
+                                answersText.add(answers.getString(answerIDs.get(i)));
                             }
 
                             Intent intent = new Intent(MainActivity.this, AnswerQuestion.class);
                             intent.putExtra("Question", questionText);
+                            intent.putExtra("QuestionID", questionID);
                             intent.putExtra("Answers", answersText);
+                            intent.putExtra("AnswerIDS", answerIDs);
                             startActivity(intent);
                             return;
                         }
@@ -203,6 +218,14 @@ public class MainActivity extends Activity {
                             if (devID.compareTo(deviceID) == 0){
                                 GameStates.setTeam(response.getString("team"));
                                 GameStates.setGameID(response.getInt("game"));
+                            }
+                        }
+
+                        if (type.compareTo("unregistered") == 0){
+                            String devID = response.getString("device_id");
+                            if (devID.compareTo(deviceID) == 0){
+                                GameStates.setGameID(null);
+                                GameStates.setTeam(null);
                             }
                         }
 

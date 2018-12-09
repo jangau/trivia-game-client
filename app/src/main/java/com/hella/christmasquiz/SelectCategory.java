@@ -91,7 +91,7 @@ public class SelectCategory extends Activity {
                 }
 
                 if (selectedCategory == null){
-                    Toast.makeText(getApplicationContext(), "No category selected!", Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), "No category selected!", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -112,5 +112,12 @@ public class SelectCategory extends Activity {
 
             }
         });
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        // Do nothing
     }
 }

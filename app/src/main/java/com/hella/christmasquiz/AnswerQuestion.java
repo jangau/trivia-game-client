@@ -4,21 +4,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.hella.christmasquiz.communication.GameStates;
+import com.hella.christmasquiz.communication.SocketHolder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AnswerQuestion extends Activity {
-    String selectedAnswerText = null;
-    Integer selectedAnswerID = null;
+    Integer selectedButtonID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +32,8 @@ public class AnswerQuestion extends Activity {
         Intent intent = getIntent();
         final List<String> answers = intent.getStringArrayListExtra("Answers");
         String questionText = intent.getStringExtra("Question");
-
+        final List<String> answerIDs = intent.getStringArrayListExtra("AnswerIDS");
+        final String questionID = intent.getStringExtra("QuestionID");
         TextView questionView = findViewById(R.id.questionView);
         questionView.setText(questionText);
 
@@ -39,7 +44,6 @@ public class AnswerQuestion extends Activity {
         buttons.add((Button) findViewById(R.id.buttonAnswer4));
 
         final Button confirmButton = findViewById(R.id.buttonConfirmAnswer);
-
         int idx = 0;
         for (final Button btn: buttons) {
             btn.setText(answers.get(idx));
@@ -48,21 +52,19 @@ public class AnswerQuestion extends Activity {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(selectedAnswerID == null){
+                    if(selectedButtonID == null){
                         confirmButton.setEnabled(true);
                     } else {
-                        Button oldSelectedAnswer = findViewById(selectedAnswerID);
+                        Button oldSelectedAnswer = findViewById(selectedButtonID);
                         oldSelectedAnswer.setBackground(getResources().getDrawable(R.drawable.categorybuttons));
                         if (oldSelectedAnswer.getId() == btn.getId()){
                             confirmButton.setEnabled(false);
                             confirmButton.setTextColor(getResources().getColor(R.color.hellaYellow));
-                            selectedAnswerID = null;
-                            selectedAnswerText = null;
+                            selectedButtonID = null;
                             return;
                         }
                     }
-                    selectedAnswerText = btn.getText().toString();
-                    selectedAnswerID = btn.getId();
+                    selectedButtonID = btn.getId();
                     btn.setBackground(getResources().getDrawable(R.drawable.categorybuttonselected));
                 }
             });
@@ -75,7 +77,7 @@ public class AnswerQuestion extends Activity {
         final int timerLimit = 30 * 1000;  // 30 seconds timer
         timerText.setText(Integer.toString(30));
         timerText.setTextColor(getResources().getColor(R.color.colorPrimary));
-        CountDownTimer timer = new CountDownTimer(timerLimit + 100, 1000) {
+        final CountDownTimer timer = new CountDownTimer(timerLimit + 100, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 int sec = (int) Math.ceil(millisUntilFinished / 1000);
@@ -91,8 +93,54 @@ public class AnswerQuestion extends Activity {
             public void onFinish() {
                 timerText.setText(Integer.toString(0));
                 progressBar.setProgress(0);
+                confirmButton.setEnabled(false);
+
+                // Tell the server we timed out
+                JSONObject answerSend = new JSONObject();
+                try {
+                    answerSend.put("type", "answer");
+                    answerSend.put("question", questionID);
+                    answerSend.put("game", GameStates.getGameID());
+                    answerSend.put("team", GameStates.getTeam());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                SocketHolder.getSocket().send(answerSend.toString());
+                confirmButton.setEnabled(false);
+                Toast.makeText(getApplicationContext(), "Too late!", Toast.LENGTH_LONG);
+                finish();
             }
         };
         timer.start();
+        confirmButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (!confirmButton.isEnabled()){
+                    return;
+                }
+
+                JSONObject answerSend = new JSONObject();
+                try {
+                    Button selectedButton = findViewById(selectedButtonID);
+                    String answerID = answerIDs.get(answers.indexOf(selectedButton.getText()));
+                    answerSend.put("type", "answer");
+                    answerSend.put("question", questionID);
+                    answerSend.put("answer", answerID);
+                    answerSend.put("game", GameStates.getGameID());
+                    answerSend.put("team", GameStates.getTeam());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                SocketHolder.getSocket().send(answerSend.toString());
+                confirmButton.setEnabled(false);
+                timer.cancel();
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do nothing
     }
 }
