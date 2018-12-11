@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.InputType;
@@ -21,18 +20,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-import okio.ByteString;
 
 public class MainActivity extends Activity {
     private ProgressBar spinner;
@@ -40,6 +35,12 @@ public class MainActivity extends Activity {
     private String ipAddress;
     private OkHttpClient client;
     private String deviceID;
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        GameStates.setViewName("Main");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,10 @@ public class MainActivity extends Activity {
         @Override
         public void onMessage(WebSocket webSocket, String text) {
             final String message = new String(text);
+            if (GameStates.getViewName() != "Main"){
+                // Don't override what is being displayed
+                return;
+            }
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -178,7 +183,11 @@ public class MainActivity extends Activity {
                             Intent intent = new Intent(MainActivity.this, SelectCategory.class);
                             intent.putStringArrayListExtra("Categories", categoriesList);
                             intent.putExtra("CategoriesEnabled", categoriesEnabled);
-                            startActivity(intent);
+                            if (GameStates.getViewName().compareTo("Main") == 0) {
+                                GameStates.setViewName("Category");
+                                startActivity(intent);
+                            }
+
                             return;
                         }
                         if (type.compareTo("question_send") == 0){
@@ -210,7 +219,10 @@ public class MainActivity extends Activity {
                             intent.putExtra("QuestionID", questionID);
                             intent.putExtra("Answers", answersText);
                             intent.putExtra("AnswerIDS", answerIDs);
-                            startActivity(intent);
+                            if (GameStates.getViewName().compareTo("Main") == 0) {
+                                GameStates.setViewName("Answer");
+                                startActivity(intent);
+                            }
                             return;
                         }
                         if (type.compareTo("device_reconnect") == 0){

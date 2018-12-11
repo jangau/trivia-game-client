@@ -25,6 +25,12 @@ public class SelectCategory extends Activity {
     Integer selectedButtonId = null;
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        GameStates.setViewName("Category");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_category);

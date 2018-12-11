@@ -25,6 +25,12 @@ public class AnswerQuestion extends Activity {
     Integer selectedButtonID = null;
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        GameStates.setViewName("Answer");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_question);
@@ -44,6 +50,7 @@ public class AnswerQuestion extends Activity {
         buttons.add((Button) findViewById(R.id.buttonAnswer4));
 
         final Button confirmButton = findViewById(R.id.buttonConfirmAnswer);
+        confirmButton.setEnabled(false);
         int idx = 0;
         for (final Button btn: buttons) {
             btn.setText(answers.get(idx));
