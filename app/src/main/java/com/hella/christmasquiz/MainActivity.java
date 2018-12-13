@@ -126,9 +126,10 @@ public class MainActivity extends Activity {
 
                         if (type.compareTo("register_device") == 0){
                             final int gameID = response.getInt("game");
-                            if (GameStates.getTeam() == null || (gameID != GameStates.getGameID())){
+                            if (GameStates.getTeam() == null || (gameID > GameStates.getGameID())){
                                 JSONArray teams = response.getJSONArray("teams");
-                                GameStates.setGameID(gameID);
+                                GameStates.setGameID(null);
+                                GameStates.setTeam(null);
                                 final String[] teamNames = new String[teams.length()];
                                 for (int i=0; i < teams.length(); i++){
                                     teamNames[i] = (String) teams.get(i);
@@ -150,6 +151,7 @@ public class MainActivity extends Activity {
                                         }
                                         SocketHolder.getSocket().send(registerSend.toString());
                                         GameStates.setTeam(teamNames[which]);
+                                        GameStates.setGameID(gameID);
                                         Toast.makeText(getApplicationContext(), teamNames[which], Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -197,9 +199,13 @@ public class MainActivity extends Activity {
                             }
                             String teamName = response.get("team").toString();
 
+                            if (GameStates.getTeam() == null) {
+                                return;
+                            }
                             if (teamName.compareTo(GameStates.getTeam()) != 0 && (teamName.compareTo("all") != 0)) {
                                 return;
                             }
+
 
                             String questionText = response.getString("question");
                             String questionID = response.getString("questionID");
@@ -235,7 +241,7 @@ public class MainActivity extends Activity {
 
                         if (type.compareTo("unregistered") == 0){
                             String devID = response.getString("device_id");
-                            if (devID.compareTo(deviceID) == 0){
+                            if (devID.compareTo(deviceID) == 0 || (devID.compareTo("all") == 0)){
                                 GameStates.setGameID(null);
                                 GameStates.setTeam(null);
                             }
